@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminProduct from "../components/AdminProduct";
+import Swal from "sweetalert2";
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
@@ -11,6 +12,26 @@ const AllProducts = () => {
     useEffect(() => {
         getProducts()
     }, [])
+
+
+    const deleteProduct = (id) => {
+        fetch(`http://localhost:3000/delete/${id}`, {
+            method: "DELETE"
+        })
+        .then((res) => res.json())
+        .then(data => {
+            console.log(data) 
+            if(data.deletedCount > 0) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Product Delete Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'ok'
+                  })
+            }
+            }
+        )
+    }
 
 
 
@@ -28,13 +49,12 @@ const AllProducts = () => {
                         <th className="p-2">Ratings</th>
                         <th className="p-2">RatingsCount</th>
                         <th className="p-2">Shipping</th>
-                        <th className="p-2">Quantity</th>
                         <th className="p-2">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        products.map((product, i )=> <AdminProduct key={product._id} product={product} i={i}/>)
+                        products.map((product, i )=> <AdminProduct key={product._id} product={product} i={i} deleteProduct={deleteProduct}/>)
                     }
                 </tbody>
                 

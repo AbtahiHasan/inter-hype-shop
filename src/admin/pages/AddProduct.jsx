@@ -19,7 +19,7 @@ const AddProduct = () => {
 
         const newProduct = { name, seller, category,price, stock, ratings, ratingsCount, shipping, img}
 
-        console.log(newCoffee);
+
 
         // send data to the server
         fetch('http://localhost:3000/add-product', {
@@ -56,7 +56,7 @@ const AddProduct = () => {
                             <span className="label-text">Product Name</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="name" autoComplete="off" placeholder="Coffee Name" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="name" autoComplete="off" placeholder="product Name" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 ml-4">

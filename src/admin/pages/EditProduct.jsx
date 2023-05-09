@@ -30,7 +30,7 @@ const EditProduct = () => {
         const ratings = form.ratings.value;
         const ratingsCount = form.ratingsCount.value;
         const shipping = form.shipping.value;
-        const photo = form.photo.value;
+        const img = form.img.value;
 
 
         const newProduct = { name, seller, category,price, stock, ratings, ratingsCount, shipping, img}
@@ -147,7 +147,7 @@ const EditProduct = () => {
                             <span className="label-text">Photo URL</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="photo" defaultValue={img} autoComplete="off" placeholder="Photo URL" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="img" defaultValue={img} autoComplete="off" placeholder="Photo URL" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                 </div>
