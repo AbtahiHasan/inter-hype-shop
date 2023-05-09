@@ -8,7 +8,7 @@ const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([])
     const getProducts = async () => {
-        const res = await fetch("https://raw.githubusercontent.com/ProgrammingHero1/ema-john-resources/main/fakeData/products.json");
+        const res = await fetch("http://localhost:3000/products");
         const data = await res.json();
         setProducts(data)
     }

@@ -13,6 +13,7 @@ import PrivateRoutes from "../private/PrivateRoutes";
 import Admin from "../layout/Admin";
 import AdminLogin from "../admin/pages/AdminLogin";
 import AddProduct from "../admin/pages/AddProduct";
+import AllProducts from "../admin/pages/AllProducts";
 
 const Routes = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const Routes = createBrowserRouter([
             {
                 path: "/pvt-contro-panel",
                 element: <AdminLogin/>
+            },
+            {
+                path: "/pvt-contro-panel/products",
+                element: <AllProducts/>
             },
             {
                 path: "/pvt-contro-panel/add-product",
