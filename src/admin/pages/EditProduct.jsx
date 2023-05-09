@@ -1,7 +1,23 @@
-import Swal from 'sweetalert2'
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const AddProduct = () => {
-    const handleAddProduct = event => {
+
+const EditProduct = () => {
+    const {id} = useParams()
+    const [product, setProduct] = useState([])
+    const getSingleProduct = async () => {
+        const res = await fetch(`http://localhost:3000/product/${id}`)
+        const product = await res.json()
+        setProduct(product)
+    }
+
+    useEffect(() => {
+        getSingleProduct()
+    },[])
+
+    const { name, seller, category,price, stock, ratings, ratingsCount, shipping, img} = product
+    const handleUpdateProduct = event => {
         event.preventDefault();
 
         const form = event.target;
@@ -14,16 +30,16 @@ const AddProduct = () => {
         const ratings = form.ratings.value;
         const ratingsCount = form.ratingsCount.value;
         const shipping = form.shipping.value;
-        const img = form.img.value;
+        const photo = form.photo.value;
 
 
         const newProduct = { name, seller, category,price, stock, ratings, ratingsCount, shipping, img}
 
-        console.log(newCoffee);
+
 
         // send data to the server
-        fetch('http://localhost:3000/add-product', {
-            method: 'POST',
+        fetch(`http://localhost:3000/update-product/${id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
@@ -32,10 +48,10 @@ const AddProduct = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                if(data.insertedId){
+                if(data. modifiedCount > 0){
                     Swal.fire({
                         title: 'Success!',
-                        text: 'Product Added Successfully',
+                        text: 'Product Updated Successfully',
                         icon: 'success',
                         confirmButtonText: 'Cool'
                       })
@@ -47,8 +63,8 @@ const AddProduct = () => {
     return (
         <div className="bg-[#F4F3F0] h-[93vh] overflow-hidden p-24">
             <div className='max-w-[1240px] mx-auto   px-3'>
-            <h2 className="text-3xl font-extrabold">Add a Product</h2>
-            <form onSubmit={handleAddProduct}>
+            <h2 className="text-3xl font-extrabold text-center mb-5">Update Product</h2>
+            <form onSubmit={handleUpdateProduct}>
                 {/* form name and quantity row */}
                 <div className="md:flex mb-8">
                     <div className="form-control md:w-1/2">
@@ -56,7 +72,7 @@ const AddProduct = () => {
                             <span className="label-text">Product Name</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="name" autoComplete="off" placeholder="Coffee Name" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="name" defaultValue={name} autoComplete="off" placeholder="Coffee Name"  className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 ml-4">
@@ -64,7 +80,7 @@ const AddProduct = () => {
                             <span className="label-text">category</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="category" autoComplete="off" placeholder="category" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="category" defaultValue={category} autoComplete="off" placeholder="category" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                 </div>
@@ -75,7 +91,7 @@ const AddProduct = () => {
                             <span className="label-text">seller </span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="seller" autoComplete="off" placeholder="seller Name" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="seller" defaultValue={seller} autoComplete="off" placeholder="seller Name" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 ml-4">
@@ -83,7 +99,7 @@ const AddProduct = () => {
                             <span className="label-text">Price</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="price" autoComplete="off" placeholder="price" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="price" defaultValue={price} autoComplete="off" placeholder="price" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                 </div>
@@ -94,7 +110,7 @@ const AddProduct = () => {
                             <span className="label-text">Stock</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="stock" autoComplete="off" placeholder="stock" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="stock" defaultValue={stock} autoComplete="off" placeholder="stock" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 ml-4">
@@ -102,7 +118,7 @@ const AddProduct = () => {
                             <span className="label-text">Ratings</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="ratings" autoComplete="off" placeholder="ratings" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="ratings" defaultValue={ratings} autoComplete="off" placeholder="ratings" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                 </div>
@@ -112,7 +128,7 @@ const AddProduct = () => {
                             <span className="label-text">Total Rating</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="ratingsCount" autoComplete="off" placeholder="Total Count" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="ratingsCount" defaultValue={ratingsCount} autoComplete="off" placeholder="Total Count" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                     <div className="form-control md:w-1/2 ml-4">
@@ -120,7 +136,7 @@ const AddProduct = () => {
                             <span className="label-text">Shipping Price</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="shipping" autoComplete="off" placeholder="shipping price" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="shipping" defaultValue={shipping} autoComplete="off" placeholder="shipping price" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                 </div>
@@ -131,11 +147,11 @@ const AddProduct = () => {
                             <span className="label-text">Photo URL</span>
                         </label>
                         <label className="input-group">
-                            <input type="text" name="img" autoComplete="off" placeholder="Photo URL" className="border py-2 px-4 rounded w-full" />
+                            <input type="text" name="photo" defaultValue={img} autoComplete="off" placeholder="Photo URL" className="border py-2 px-4 rounded w-full" />
                         </label>
                     </div>
                 </div>
-                <input type="submit" value="Add Product" className="block bg-[#1C2B35] w-full py-3 rounded text-white" />
+                <input type="submit" value="Update Product" className="block bg-[#1C2B35] w-full py-3 rounded text-white" />
 
             </form>
             </div>
@@ -143,4 +159,4 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+export default EditProduct;
